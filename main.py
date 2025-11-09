@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import cv2
 import numpy as np
 from datetime import datetime
@@ -9,6 +10,15 @@ import io
 from PIL import Image
 
 app = FastAPI(title="Raspberry Pi Object Detection API")
+
+# Enable CORS for all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Initialize YOLO model (using YOLOv8n for better performance on RPi)
 try:

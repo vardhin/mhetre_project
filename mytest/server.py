@@ -38,15 +38,17 @@ async def toggle_led():
         with open(ACT_LED_BRIGHTNESS, 'r') as f:
             current = int(f.read().strip())
         
-        # Toggle (0 -> 1, 1 -> 0)
-        new_value = 0 if current == 1 else 1
+        # Toggle: if current > 0, turn off (0), else turn on (1)
+        new_value = 0 if current > 0 else 1
         
         with open(ACT_LED_BRIGHTNESS, 'w') as f:
             f.write(str(new_value))
         
         return JSONResponse(content={
             "status": "success",
-            "led_state": "on" if new_value == 1 else "off"
+            "led_state": "on" if new_value == 1 else "off",
+            "previous_brightness": current,
+            "new_brightness": new_value
         })
     
     except PermissionError:

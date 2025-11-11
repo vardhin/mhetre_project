@@ -1,8 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 app = FastAPI(title="Raspberry Pi LED Controller")
+
+# enable CORS (allow all)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Path to the ACT LED trigger
 ACT_LED_TRIGGER = "/sys/class/leds/ACT/trigger"
